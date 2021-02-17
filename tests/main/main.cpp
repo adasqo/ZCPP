@@ -1,14 +1,42 @@
 #include <iostream>
 #include "../../src/layers/layer.hpp"
+#include "../../src/layers/dense.hpp"
+#include "../../src/models/model.hpp"
+#include "../../src/models/sequential.hpp"
+#include "../../src/matrix/matrix.hpp"
 
 
 int main(int argc, char* argv[])
 {
-    // std::cout << "TEST" << std::endl;
+    std::cout << "TEST" << std::endl;
 
-    Layer layer = Layer();
+    // Matrix<int> m1 = Matrix<int>(2, 2);
+    // m1(0, 0) = 1;
+    // m1(0, 1) = 1;
+    // m1(1, 0) = 1;
+    // m1(1, 1) = 1;
+    // std::cout << m1 << std::endl;
+    // Matrix<int> m2 = Matrix<int>(2, 2);
+    // m2(0, 0) = 1;
+    // m2(0, 1) = 2;
+    // m2(1, 0) = 3;
+    // m2(1, 1) = 4;
+    // std::cout << m2 << std::endl;
+    // Matrix<int> m3 = m1 + m2;
+    // std::cout << m3 << std::endl;
+    // Matrix<int> m4 = m1 * m2;
+    // std::cout << m4 << std::endl;
+    // Matrix<int> m5 = m1 * 5;
+    // std::cout << m5 << std::endl;
+    // Matrix<int> m6 = m2.transpose();
+    // std::cout << m6 << std::endl;
+    Sequential model = Sequential();
+    Dense dense = Dense(1);
+    model.add(dense);
+    Dense dense = Dense(1);
+    model.add(dense);
     // layer.val = 1;
-    std::cout << layer.val << std::endl; 
+    // std::cout << layer.val << std::endl; 
     
     system("pause");
     return 0;

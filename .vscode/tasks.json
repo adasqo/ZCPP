@@ -6,9 +6,8 @@
         {
             "label": "echo",
             "type": "shell",
-            "command": "g++",
+            "command": "g++ -g -Wall -o tests/main/main.exe tests/main/main.cpp",
             "args": [
-                "-g", "-Wall", "tests/main/main.cpp", "-o", "tests/main/main.exe",
             ],
             "group": {
                 "kind": "build",
