@@ -10,7 +10,10 @@ class Matrix
     T cols;
 
     public:
-        Matrix(){};
+        Matrix(): rows(0), cols(0)
+        {
+            matrix = std::vector<T>();
+        };
         Matrix(const T& rows, const T& cols): rows(rows), cols(cols)
         {
             this->matrix = std::vector<T>(rows*cols);

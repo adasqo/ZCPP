@@ -30,11 +30,13 @@ int main(int argc, char* argv[])
     // std::cout << m5 << std::endl;
     // Matrix<int> m6 = m2.transpose();
     // std::cout << m6 << std::endl;
+    float input[3] = {0.1, 0.2, 0.3};
     Sequential model = Sequential();
-    Dense dense = Dense(1);
-    model.add(dense);
-    Dense dense = Dense(1);
-    model.add(dense);
+    Dense dense1 = Dense(1);
+    model.add(dense1);
+    // Dense dense2 = Dense(1);
+    // model.add(dense2);
+    model.train();
     // layer.val = 1;
     // std::cout << layer.val << std::endl; 
     
