@@ -7,12 +7,12 @@ int main(int argc, char* argv[])
 {
     std::cout << "TEST" << std::endl;
 
-    // Matrix<int> m1 = Matrix<int>(2, 2);
-    // m1(0, 0) = 1;
-    // m1(0, 1) = 1;
-    // m1(1, 0) = 1;
-    // m1(1, 1) = 1;
-    // std::cout << m1 << std::endl;
+   /*  Matrix<int> m1 = Matrix<int>(2, 2);
+     m1(0, 0) = 1;
+     m1(0, 1) = 1;
+     m1(1, 0) = 1;
+     m1(1, 1) = 1;
+     std::cout << m1 << std::endl;*/
     // Matrix<int> m2 = Matrix<int>(2, 2);
     // m2(0, 0) = 1;
     // m2(0, 1) = 2;
@@ -27,13 +27,14 @@ int main(int argc, char* argv[])
     // std::cout << m5 << std::endl;
     // Matrix<int> m6 = m2.transpose();
     // std::cout << m6 << std::endl;
-    float input[3] = {0.1, 0.2, 0.3};
+    Matrix<float> input = Matrix<float>(1, 1);
+    input(0, 0) = 0.1;
     Sequential model = Sequential();
-    Dense dense1 = Dense(1);
+    Dense dense1 = Dense(1, 1);
     model.add(dense1);
     // Dense dense2 = Dense(1);
     // model.add(dense2);
-    //model.train();
+    model.train(1, 1, input);
     // layer.val = 1;
     // std::cout << layer.val << std::endl; 
     

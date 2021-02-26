@@ -1,6 +1,4 @@
 #pragma once
-#include <vector>
-#include <ostream>
 #include "matrix.hpp"
 
 template<typename T>
@@ -9,7 +7,7 @@ Matrix<T>::Matrix() : rows(0), cols(0)
     matrix = std::vector<T>();
 };
 template<typename T>
-Matrix<T>::Matrix(const T& rows, const T& cols) : rows(rows), cols(cols)
+Matrix<T>::Matrix(const int& rows, const int& cols) : rows(rows), cols(cols)
 {
     this->matrix = std::vector<T>(rows * cols);
 };
@@ -33,6 +31,16 @@ Matrix<T>& Matrix<T>::operator=(const Matrix<T>& m)
                 this->matrix[i * this->cols + j] = m(i, j);
     }
     return *this;
+}
+template<typename T>
+int Matrix<T>::get_rows()
+{
+    return rows;
+}
+template<typename T>
+int Matrix<T>::get_cols()
+{
+    return cols;
 }
 template<typename T>
 Matrix<T> operator+(const Matrix<T>& m1, const Matrix<T>& m2)
@@ -89,31 +97,31 @@ Matrix<T> Matrix<T>::operator*(const T& c)
 template<typename T>
 Matrix<T> Matrix<T>::transpose()
 {
-    Matrix<T> m = Matrix<T>(this->rows, this->cols);
+    Matrix<T> m = Matrix<T>(this->cols, this->rows);
     for (int i = 0; i < this->rows; ++i)
         for (int j = 0; j < this->cols; ++j)
             if (i == j)
-                m(i, j) = this->matrix[i * this->cols + j];
+                m(j, i) = this->matrix[i * this->cols + j];
             else
-                m(this->rows - i - 1, this->cols - j - 1) = this->matrix[i * this->cols + j];
+                m(j, i) = this->matrix[i * this->cols + j];
     return m;
 };
 template<typename T>
-T& Matrix<T>::operator()(const T& row, const T& col)
+T& Matrix<T>::operator()(const int& row, const int& col)
 {
     if (row < 0 || row >= this->rows || col < 0 || col >= this->cols)
         throw std::out_of_range("Index out of bounds");
     return matrix[row * this->cols + col];
 };
 template<typename T>
-const T& Matrix<T>::operator()(const T& row, const T& col) const
+const T& Matrix<T>::operator()(const int& row, const int& col) const
 {
     if (row < 0 || row >= this->rows || col < 0 || col >= this->cols)
         throw std::out_of_range("Index out of bounds");
     return matrix[row * this->cols + col];
-}
+};
 template<typename T>
-std::ostream& operator<<(std::ostream& out, Matrix<T>& m)
+std::ostream& operator<<(std::ostream& out, const Matrix<T>& m)
 {
     for (int i = 0; i < m.rows; ++i)
     {

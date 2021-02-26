@@ -4,6 +4,8 @@
 
 class Dense: public Layer
 {
+    private:
+        void initiatie_weights();
     public:
         Dense();
         Dense(int);
