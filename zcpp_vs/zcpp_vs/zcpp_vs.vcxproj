@@ -18,10 +18,25 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\layers\dense.cpp" />
+    <ClCompile Include="src\layers\layer.cpp" />
+    <ClCompile Include="src\matrix\matrix.cpp" />
+    <ClCompile Include="src\models\model.cpp" />
+    <ClCompile Include="src\models\sequential.cpp" />
+    <ClCompile Include="tests\main\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\layers\dense.hpp" />
+    <ClInclude Include="src\layers\layer.hpp" />
+    <ClInclude Include="src\matrix\matrix.hpp" />
+    <ClInclude Include="src\models\model.hpp" />
+    <ClInclude Include="src\models\sequential.hpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{C771EFD6-FDD8-4A27-BAF2-A483221EA902}</ProjectGuid>
-    <RootNamespace>cnn</RootNamespace>
+    <ProjectGuid>{29BCB22C-D021-4726-BF3B-BC90FDF0629F}</ProjectGuid>
+    <RootNamespace>zcppvs</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -137,8 +152,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
