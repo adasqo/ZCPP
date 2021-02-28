@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\layers\activation\relu.cpp" />
+    <ClCompile Include="src\layers\activation\softmax.cpp" />
     <ClCompile Include="src\layers\dense.cpp" />
     <ClCompile Include="src\layers\layer.cpp" />
     <ClCompile Include="src\matrix\matrix.cpp" />
@@ -27,6 +29,8 @@
     <ClCompile Include="tests\main\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\layers\activation\relu.hpp" />
+    <ClInclude Include="src\layers\activation\softmax.hpp" />
     <ClInclude Include="src\layers\dense.hpp" />
     <ClInclude Include="src\layers\layer.hpp" />
     <ClInclude Include="src\matrix\matrix.hpp" />

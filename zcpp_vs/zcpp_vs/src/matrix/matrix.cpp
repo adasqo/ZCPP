@@ -67,8 +67,8 @@ Matrix<T> operator-(const Matrix<T>& m1, const Matrix<T>& m2)
 template<typename T>
 Matrix<T> operator*(const Matrix<T>& m1, const Matrix<T>& m2)
 {
-    if (m1.rows != m2.cols || m1.cols != m2.rows)
-        throw std::out_of_range("");
+    if (m1.cols != m2.rows)
+        throw std::out_of_range("Wrong dim of matrixes");
     Matrix<T> m = Matrix<T>(m1.rows, m2.cols);
     for (int i = 0; i < m1.rows; ++i)
         for (int j = 0; j < m2.cols; ++j)

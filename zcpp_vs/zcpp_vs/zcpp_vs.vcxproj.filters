@@ -30,6 +30,12 @@
     <ClCompile Include="src\layers\dense.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\layers\activation\relu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\layers\activation\softmax.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\matrix\matrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -48,6 +54,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\models\sequential.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\layers\activation\relu.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\layers\activation\softmax.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

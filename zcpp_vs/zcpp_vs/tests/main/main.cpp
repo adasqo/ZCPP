@@ -1,6 +1,8 @@
 #include <iostream>
 #include "../../src/layers/dense.hpp"
 #include "../../src/models/sequential.hpp"
+#include "../../src/layers/activation/relu.hpp"
+#include "../../src/layers/activation/softmax.hpp"
 
 
 int main(int argc, char* argv[])
@@ -27,13 +29,16 @@ int main(int argc, char* argv[])
     // std::cout << m5 << std::endl;
     // Matrix<int> m6 = m2.transpose();
     // std::cout << m6 << std::endl;
-    Matrix<float> input = Matrix<float>(1, 1);
+    Matrix<float> input = Matrix<float>(2, 1);
     input(0, 0) = 0.1;
+    input(1, 0) = -0.2;
     Sequential model = Sequential();
-    Dense dense1 = Dense(1, 1);
+    Dense dense1 = Dense(2, 2);
     model.add(dense1);
-    // Dense dense2 = Dense(1);
-    // model.add(dense2);
+    ReLU relu1 = ReLU(2);
+    model.add(relu1);
+    Softmax soft1 = Softmax(2);
+    model.add(soft1);
     model.train(1, 1, input);
     // layer.val = 1;
     // std::cout << layer.val << std::endl; 
