@@ -1,15 +1,15 @@
 #pragma once
 
-#include "../layer.hpp"
+#include "activation_layer.hpp"
 
-class Softmax : public Layer
+class Softmax : public ActivationLayer
 {
     private:    
         float beta;
     public:
         Softmax();
         Softmax(int);
-        Softmax(int, int);
-        Matrix<float> perform_calculations_forward(Matrix<float>) override;
+        Matrix<float> transfer_result(Matrix<float>);
+        Matrix<float> transfer_derivative(Matrix<float>);
         void set_beta(float);
 };

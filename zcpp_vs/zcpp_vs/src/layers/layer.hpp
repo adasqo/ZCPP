@@ -12,4 +12,5 @@ class Layer
         Layer(int);
         Layer(int, int);
         virtual Matrix<float> perform_calculations_forward(Matrix<float>) = 0;
+        virtual Matrix<float> perform_calculations_backward(Matrix<float>) = 0;
 };

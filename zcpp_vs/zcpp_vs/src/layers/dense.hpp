@@ -13,4 +13,5 @@ class Dense: public Layer
         Dense(int, int);
 
         Matrix<float> perform_calculations_forward(Matrix<float>) override;
+        Matrix<float> perform_calculations_backward(Matrix<float>) override;
 };

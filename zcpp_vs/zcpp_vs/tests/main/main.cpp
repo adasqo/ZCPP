@@ -3,7 +3,7 @@
 #include "../../src/models/sequential.hpp"
 #include "../../src/layers/activation/relu.hpp"
 #include "../../src/layers/activation/softmax.hpp"
-
+#include "../../src/data_management/data_updater_loader.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -29,9 +29,17 @@ int main(int argc, char* argv[])
     // std::cout << m5 << std::endl;
     // Matrix<int> m6 = m2.transpose();
     // std::cout << m6 << std::endl;
-    Matrix<float> input = Matrix<float>(2, 1);
+
+    DataLoader loader = DataLoader();
+    std::cout << "Loading data..." << std::endl;
+    std::list<Matrix<float>> input = loader.load_data("../../data/train.csv");
+    std::cout << "Data loaded" << std::endl;
+    /*Matrix<float> input = Matrix<float>(2, 1);
     input(0, 0) = 0.1;
     input(1, 0) = -0.2;
+    Matrix<float> output = Matrix<float>(2, 1);
+    output(0, 0) = 0;
+    output(1, 0) = 1;
     Sequential model = Sequential();
     Dense dense1 = Dense(2, 2);
     model.add(dense1);
@@ -39,7 +47,8 @@ int main(int argc, char* argv[])
     model.add(relu1);
     Softmax soft1 = Softmax(2);
     model.add(soft1);
-    model.train(1, 1, input);
+    model.train(1, 1, input, output);*/
+
     // layer.val = 1;
     // std::cout << layer.val << std::endl; 
     

@@ -39,3 +39,7 @@ Matrix<float> Dense::perform_calculations_forward(Matrix<float> input)
 
     return weights.transpose()*input_biased;
 };
+Matrix<float> Dense::perform_calculations_backward(Matrix<float> input)
+{
+    return input;
+};

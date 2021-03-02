@@ -1,21 +1,31 @@
 #include "softmax.hpp"
 #include <math.h>  
 
-Softmax::Softmax() : Layer(), beta(1) {};
-Softmax::Softmax(int incoming_units) : beta(1) 
-{
-    this->incoming_units = incoming_units;
-};
+Softmax::Softmax() : ActivationLayer(), beta(1) {};
+Softmax::Softmax(int incoming_units) : ActivationLayer(incoming_units), beta(1) {} ;
 
-Matrix<float> Softmax::perform_calculations_forward(Matrix<float> input)
+float calculate_derivative(float)
 {
-    std::cout << "Softmax" << std::endl;
-    std::cout << input << std::endl;
+    return 0;
+};
+Matrix<float> Softmax::transfer_result(Matrix<float> input)
+{
     float sum = 0;
     for (int i = 0; i < input.get_rows(); ++i)
-        std::cout << input(i, 0) << std::endl;
-        //sum += exp(float(input(i, 0)));
+        sum += exp(float(input(i, 0)));
    
+    for (int i = 0; i < input.get_rows(); ++i)
+        input(i, 0) = exp(input(i, 0)) / sum;
+
+    return input;
+};
+Matrix<float> Softmax::transfer_derivative(Matrix<float> input)
+{
+    // TO DO
+    float sum = 0;
+    for (int i = 0; i < input.get_rows(); ++i)
+        sum += exp(float(input(i, 0)));
+
     for (int i = 0; i < input.get_rows(); ++i)
         input(i, 0) = exp(input(i, 0)) / sum;
 
