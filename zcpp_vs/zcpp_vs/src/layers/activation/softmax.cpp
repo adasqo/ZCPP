@@ -4,10 +4,8 @@
 Softmax::Softmax() : ActivationLayer(), beta(1) {};
 Softmax::Softmax(int incoming_units) : ActivationLayer(incoming_units), beta(1) {} ;
 
-float calculate_derivative(float)
-{
-    return 0;
-};
+float Softmax::calculate_result(float) { return 0; };
+float Softmax::calculate_derivative(float) { return 0; };
 Matrix<float> Softmax::transfer_result(Matrix<float> input)
 {
     float sum = 0;
@@ -19,7 +17,7 @@ Matrix<float> Softmax::transfer_result(Matrix<float> input)
 
     return input;
 };
-Matrix<float> Softmax::transfer_derivative(Matrix<float> input)
+Matrix<float> Softmax::transfer_derivative(Matrix<float> input, Matrix<float> expected)
 {
     // TO DO
     float sum = 0;

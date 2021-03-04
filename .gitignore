@@ -33,6 +33,10 @@
 
 # Custom
 .vs
+*.sln
+*.vcxproj
+*.filters
+*.user
 
 # Folders
 debug
