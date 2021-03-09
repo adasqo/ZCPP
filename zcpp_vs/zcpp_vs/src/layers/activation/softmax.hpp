@@ -12,6 +12,6 @@ class Softmax : public ActivationLayer
         Softmax();
         Softmax(int);
         Matrix<float> transfer_result(Matrix<float>) override;
-        Matrix<float> transfer_derivative(Matrix<float>, Matrix<float>);
+        std::tuple<Matrix<float>, Matrix<float>> transfer_derivative(Matrix<float>);
         void set_beta(float);
 };

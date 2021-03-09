@@ -7,5 +7,5 @@ class DataLoader
 {
 	public:
 		DataLoader();
-		static std::list<Matrix<float>> load_data(std::string);
+		std::tuple<std::list<Matrix<float>>, std::list<Matrix<float>>> load_data(std::string, int);
 };

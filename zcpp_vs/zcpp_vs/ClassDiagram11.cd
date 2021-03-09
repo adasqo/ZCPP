@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DataLoader">
+    <Position X="20" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>src\data_management\data_updater_loader.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ActivationLayer">
+    <Position X="4.5" Y="2.5" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>jAAAAQAAAAQEAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\layers\activation\activation_layer.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ReLU">
+    <Position X="4.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAAIAAAEAAAAAoAAADAAAAAAAAAAAA=</HashCode>
+      <FileName>src\layers\activation\relu.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sigmoid">
+    <Position X="6.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAgAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>src\layers\activation\sigmoid.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Softmax">
+    <Position X="2.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAIQAAAAQAEAAAAAAABAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\layers\activation\softmax.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dense">
+    <Position X="8.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>iAAAAAAAAAAAAAAACAAAAAAICAAAQAAAgAAAAEAEAAA=</HashCode>
+      <FileName>src\layers\dense.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Layer">
+    <Position X="9.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>iAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAFAAAAAAAAAAA=</HashCode>
+      <FileName>src\layers\layer.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Matrix&lt;T&gt;">
+    <Position X="18" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEIBAACAAAACgAAAACgAgAAAAAAA=</HashCode>
+      <FileName>src\matrix\matrix.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Model">
+    <Position X="16" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAABAAAABAAAAAAAAAAAAQAAAgABAACAEA=</HashCode>
+      <FileName>src\models\model.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sequential">
+    <Position X="16" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAABAAAAAAAAAAAgAAAAIQAAAAAIAACAEA=</HashCode>
+      <FileName>src\models\sequential.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Convalutional">
+    <Position X="11.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\layers\convolutional\convolutional.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MaxPool">
+    <Position X="12.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\layers\convolutional\max_pool.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Conv2D">
+    <Position X="10" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\layers\convolutional\conv_2d.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Flatten">
+    <Position X="11.25" Y="5" Width="1.5" />
+    <InheritanceLine Type="Convalutional" FixedFromPoint="true">
+      <Path>
+        <Point X="11.625" Y="4.497" />
+        <Point X="11.625" Y="4.7" />
+        <Point X="12" Y="4.7" />
+        <Point X="12" Y="5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\layers\convolutional\flatten.cpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dropout">
+    <Position X="14" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\layers\dropout.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

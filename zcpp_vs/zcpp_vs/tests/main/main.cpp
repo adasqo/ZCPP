@@ -2,8 +2,10 @@
 #include "../../src/layers/dense.hpp"
 #include "../../src/models/sequential.hpp"
 #include "../../src/layers/activation/relu.hpp"
+#include "../../src/layers/activation/sigmoid.hpp"
 #include "../../src/layers/activation/softmax.hpp"
 #include "../../src/data_management/data_updater_loader.hpp"
+#include <tuple>
 
 int main(int argc, char* argv[])
 {
@@ -30,24 +32,43 @@ int main(int argc, char* argv[])
     // Matrix<int> m6 = m2.transpose();
     // std::cout << m6 << std::endl;
 
-    /*DataLoader loader = DataLoader();
+    DataLoader loader = DataLoader();
     std::cout << "Loading data..." << std::endl;
-    std::list<Matrix<float>> input = loader.load_data("../../data/train.csv");
-    std::cout << "Data loaded" << std::endl;*/
-    Matrix<float> input = Matrix<float>(2, 1);
-    input(0, 0) = 0.1;
-    input(1, 0) = -0.2;
-    Matrix<float> output = Matrix<float>(2, 1);
-    output(0, 0) = 0;
-    output(1, 0) = 1;
+    std::tuple<std::list<Matrix<float>>, std::list<Matrix<float>>> data;
+    data = loader.load_data("../../data/train.csv", 500);
+    std::cout << "Data loaded" << std::endl;
+    
+    /*Matrix<float> input1 = Matrix<float>(2, 1);
+    input1(0, 0) = 0.1;
+    input1(1, 0) = -0.1;
+    Matrix<float> input2 = Matrix<float>(2, 1);
+    input2(0, 0) = -0.1;
+    input2(1, 0) = 0.1;
+    Matrix<float> output1 = Matrix<float>(2, 1);
+    output1(0, 0) = 0;
+    output1(1, 0) = 1;
+    Matrix<float> output2 = Matrix<float>(2, 1);
+    output2(0, 0) = 1;
+    output2(1, 0) = 0;
+    std::list<Matrix<float>> input;
+    input.push_back(input1);
+    input.push_back(input2);
+    std::list<Matrix<float>> expected;
+    expected.push_back(output1);
+    expected.push_back(output2);*/
+
     Sequential model = Sequential();
-    Dense dense1 = Dense(2, 2);
+    Dense dense1 = Dense(784, 128, false);
     model.add(dense1);
-    ReLU relu1 = ReLU(2);
-    model.add(relu1);
-    Softmax soft1 = Softmax(2);
+    /*ReLU relu1 = ReLU(128);
+    model.add(relu1);*/
+    Sigmoid sigmoid1 = Sigmoid(128);
+    model.add(sigmoid1);
+    Dense dense2 = Dense(128, 10, true);
+    model.add(dense2);
+    Softmax soft1 = Softmax(10);
     model.add(soft1);
-    model.train(1, 1, input, output);
+    model.train(10, 10, 0.001, std::get<0>(data), std::get<1>(data));
 
     // layer.val = 1;
     // std::cout << layer.val << std::endl; 

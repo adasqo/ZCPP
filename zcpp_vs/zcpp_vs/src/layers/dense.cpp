@@ -3,43 +3,58 @@
 #include "layer.hpp"
 #include "../matrix/matrix.hpp"
 #include <time.h>
+#include <tuple>
 
-Dense::Dense() : Layer() 
+Dense::Dense(bool is_last = false) : Layer(), is_last(is_last)
 {
     weights = Matrix<float>();
 };
-Dense::Dense(int units) : Layer(units) 
+Dense::Dense(int units, bool is_last = false) : Layer(units), is_last(is_last)
 {
     weights = Matrix<float>();
 };
-Dense::Dense(int incoming_units, int units) : Layer(incoming_units, units)
+Dense::Dense(int incoming_units, int units, bool is_last = false) : Layer(incoming_units, units), is_last(is_last)
 {
-    weights = Matrix<float>(incoming_units + 1, units);
+    weights = Matrix<float>(incoming_units, units);
     initiatie_weights();
 };
 
 void Dense::initiatie_weights()
 {
     srand(time(NULL));
-    for (int i = 0; i < incoming_units + 1; ++i)
+    for (int i = 0; i < incoming_units; ++i)
         for (int j = 0; j < units; ++j)
-            weights(i, j) = 2*float(float(rand()) / float(RAND_MAX)) - 1;
+           // weights(i, j) = float(float(rand()) / float(RAND_MAX));
+            weights(i, j) = float(float(rand()) / float(RAND_MAX)) - 0.5;
 }
 Matrix<float> Dense::perform_calculations_forward(Matrix<float> input)
 {
-    Matrix<float> input_biased = Matrix<float>(input.get_rows() + 1, 1);
-    input_biased(0, 0) = 1;
-    for (int i=0; i < input.get_rows(); ++i)
-        input_biased(i + 1, 0) = input(i, 0);
-    std::cout << "input: " << input_biased << std::endl;
-    if(input_biased.get_rows() != weights.get_rows())
+    Matrix<float> bias = Matrix<float>(weights.get_cols(), 1);
+    for (int i = 0; i < bias.get_rows(); ++i)
+        bias(i, 0) = 0.1;
+    if(input.get_rows() != weights.get_rows())
         throw std::out_of_range("Index out of bounds");
-    std::cout << "weights:" << std::endl;
-    std::cout << weights << std::endl;
-
-    return weights.transpose()*input_biased;
+    output = weights.transpose() * input;
+    output = output + bias;
+    return output;
 };
-Matrix<float> Dense::perform_calculations_backward(Matrix<float> input)
+std::tuple<Matrix<float>, Matrix<float>> Dense::perform_calculations_backward(std::tuple<Matrix<float>, Matrix<float>> derivative, float alpha)
 {
-    return input;
+    float error;
+    Matrix<float> errors_out = Matrix<float>(weights.get_rows(), 1);
+    for (int i = 0; i < weights.get_rows(); i++)
+    {
+        error = 0;
+        for (int j = 0; j < weights.get_cols(); j++)
+            error += weights(i, j) * (std::get<0>(derivative))(j, 0);
+        errors_out(i, 0) = error;
+    }
+    update_weights(derivative, alpha);
+    return std::make_tuple(errors_out, Matrix<float>());
 };
+void Dense::update_weights(std::tuple<Matrix<float>, Matrix<float>> derivative, float alpha)
+{
+    for (int i = 0; i < weights.get_rows(); i++)
+        for (int j = 0; j < weights.get_cols(); j++)
+            weights(i, j) -= alpha * (std::get<0>(derivative))(j, 0) * (std::get<1>(derivative))(j, 0);
+}

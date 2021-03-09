@@ -4,14 +4,14 @@
 class Model
 {
     private:
-        Matrix<float> propagate_forward(Matrix<float>);
-        void propagate_backward(Matrix<float>);
-        float perform_batch_calculations(std::list<Matrix<float>>, std::list<Matrix<float>>);
+        virtual Matrix<float> propagate_forward(Matrix<float>) = 0;
+        virtual void propagate_backward(float, Matrix<float>) = 0;
+        virtual float perform_batch_calculations(float, std::list<Matrix<float>>, std::list<Matrix<float>>) = 0;
     protected:
         std::list<Layer*> layers;
+        float calculate_error(Matrix<float> output, Matrix<float> expected);
     public:
         Model();
-        virtual void add(Layer&);
-        // virtual void compile();
-        void train(int, int, std::list<Matrix<float>>, std::list<Matrix<float>>);
+        virtual void add(Layer&) = 0;
+        virtual void train(int, int, float, std::list<Matrix<float>>, std::list<Matrix<float>>) = 0;
 };
