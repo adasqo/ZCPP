@@ -37,7 +37,12 @@
 *.vcxproj
 *.filters
 *.user
+*.png
+*.docx
+*.pdf
 
 # Folders
 debug
 data
+test
+ZCPP
