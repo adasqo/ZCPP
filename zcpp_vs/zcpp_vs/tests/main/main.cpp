@@ -57,18 +57,18 @@ int main(int argc, char* argv[])
     expected.push_back(output1);
     expected.push_back(output2);*/
 
-    Sequential model = Sequential();
-    Dense dense1 = Dense(784, 128, false);
-    model.add(dense1);
+    Model* model = new Sequential();
+    Dense dense1 = Dense(784, 128);
+    model->add(dense1);
     /*ReLU relu1 = ReLU(128);
     model.add(relu1);*/
     Sigmoid sigmoid1 = Sigmoid(128);
-    model.add(sigmoid1);
-    Dense dense2 = Dense(128, 10, true);
-    model.add(dense2);
+    model->add(sigmoid1);
+    Dense dense2 = Dense(128, 10);
+    model->add(dense2);
     Softmax soft1 = Softmax(10);
-    model.add(soft1);
-    model.train(10, 10, 0.001, std::get<0>(data), std::get<1>(data));
+    model->add(soft1);
+    model->train(10, 10, 0.001, std::get<0>(data), std::get<1>(data));
 
     // layer.val = 1;
     // std::cout << layer.val << std::endl; 

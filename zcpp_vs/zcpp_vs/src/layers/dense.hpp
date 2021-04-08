@@ -10,11 +10,10 @@ class Dense: public Layer
         Matrix<float> delta;
         void initiatie_weights();
         void update_weights(std::tuple<Matrix<float>, Matrix<float>> derivative, float alpha);
-        bool is_last;
     public:
-        Dense(bool);
-        Dense(int, bool);
-        Dense(int, int, bool);
+        Dense();
+        Dense(int);
+        Dense(int, int);
 
         Matrix<float> perform_calculations_forward(Matrix<float>) override;
         std::tuple<Matrix<float>, Matrix<float>> perform_calculations_backward(std::tuple<Matrix<float>, Matrix<float>>, float) override;

@@ -44,8 +44,10 @@
     <ClInclude Include="src\layers\dense.hpp" />
     <ClInclude Include="src\layers\dropout.hpp" />
     <ClInclude Include="src\layers\layer.hpp" />
+    <ClInclude Include="src\layers\layers.hpp" />
     <ClInclude Include="src\matrix\matrix.hpp" />
     <ClInclude Include="src\models\model.hpp" />
+    <ClInclude Include="src\models\models.hpp" />
     <ClInclude Include="src\models\sequential.hpp" />
   </ItemGroup>
   <ItemGroup>

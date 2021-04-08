@@ -3,7 +3,7 @@
 #include "model.hpp"
 #include <list>
 
-class Sequential: Model
+class Sequential: public Model
 {
     private:
         Matrix<float> propagate_forward(Matrix<float>) override;

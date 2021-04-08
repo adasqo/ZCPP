@@ -5,15 +5,15 @@
 #include <time.h>
 #include <tuple>
 
-Dense::Dense(bool is_last = false) : Layer(), is_last(is_last)
+Dense::Dense() : Layer()
 {
     weights = Matrix<float>();
 };
-Dense::Dense(int units, bool is_last = false) : Layer(units), is_last(is_last)
+Dense::Dense(int units) : Layer(units)
 {
     weights = Matrix<float>();
 };
-Dense::Dense(int incoming_units, int units, bool is_last = false) : Layer(incoming_units, units), is_last(is_last)
+Dense::Dense(int incoming_units, int units) : Layer(incoming_units, units)
 {
     weights = Matrix<float>(incoming_units, units);
     initiatie_weights();
