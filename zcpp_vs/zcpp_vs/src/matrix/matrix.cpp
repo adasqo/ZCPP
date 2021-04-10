@@ -95,6 +95,15 @@ Matrix<T> Matrix<T>::operator*(const T& c)
     return m;
 };
 template<typename T>
+Matrix<T> Matrix<T>::dot(const Matrix<T>& mat)
+{
+    Matrix<T> m = Matrix<T>(this->rows, this->cols);
+    for (int i = 0; i < this->rows; ++i)
+        for (int j = 0; j < this->cols; ++j)
+            m(i, j) = this->matrix[i * this->cols + j] * mat(i, j);
+    return m;
+};
+template<typename T>
 Matrix<T> Matrix<T>::transpose()
 {
     Matrix<T> m = Matrix<T>(this->cols, this->rows);

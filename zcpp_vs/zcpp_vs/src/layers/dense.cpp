@@ -24,37 +24,31 @@ void Dense::initiatie_weights()
     srand(time(NULL));
     for (int i = 0; i < incoming_units; ++i)
         for (int j = 0; j < units; ++j)
-           // weights(i, j) = float(float(rand()) / float(RAND_MAX));
+            //weights(i, j) = 0;
             weights(i, j) = float(float(rand()) / float(RAND_MAX)) - 0.5;
 }
 Matrix<float> Dense::perform_calculations_forward(Matrix<float> input)
 {
+    result = input;
     Matrix<float> bias = Matrix<float>(weights.get_cols(), 1);
     for (int i = 0; i < bias.get_rows(); ++i)
-        bias(i, 0) = 0.1;
+        bias(i, 0) = 0;
     if(input.get_rows() != weights.get_rows())
         throw std::out_of_range("Index out of bounds");
     output = weights.transpose() * input;
-    output = output + bias;
+
     return output;
 };
-std::tuple<Matrix<float>, Matrix<float>> Dense::perform_calculations_backward(std::tuple<Matrix<float>, Matrix<float>> derivative, float alpha)
+Matrix<float> Dense::perform_calculations_backward(Matrix<float> derivative, float alpha)
 {
-    float error;
-    Matrix<float> errors_out = Matrix<float>(weights.get_rows(), 1);
-    for (int i = 0; i < weights.get_rows(); i++)
-    {
-        error = 0;
-        for (int j = 0; j < weights.get_cols(); j++)
-            error += weights(i, j) * (std::get<0>(derivative))(j, 0);
-        errors_out(i, 0) = error;
-    }
+    //std::cout << derivative << std::endl;
     update_weights(derivative, alpha);
-    return std::make_tuple(errors_out, Matrix<float>());
+    return weights * derivative;
 };
-void Dense::update_weights(std::tuple<Matrix<float>, Matrix<float>> derivative, float alpha)
+void Dense::update_weights(Matrix<float> derivative, float alpha)
 {
-    for (int i = 0; i < weights.get_rows(); i++)
-        for (int j = 0; j < weights.get_cols(); j++)
-            weights(i, j) -= alpha * (std::get<0>(derivative))(j, 0) * (std::get<1>(derivative))(j, 0);
+    //std::cout << result << std::endl;
+    //std::cout << derivative.transpose() << std::endl;
+    //std::cout << result * derivative.transpose() * alpha << std::endl;
+    weights = weights - result * derivative.transpose() * alpha;
 }

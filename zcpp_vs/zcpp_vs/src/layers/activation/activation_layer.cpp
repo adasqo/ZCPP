@@ -11,22 +11,21 @@ Matrix<float> ActivationLayer::perform_calculations_forward(Matrix<float> input)
 {
 	return transfer_result(input);
 };
-std::tuple<Matrix<float>, Matrix<float>> ActivationLayer::perform_calculations_backward(std::tuple<Matrix<float>, Matrix<float>> input, float)
+Matrix<float> ActivationLayer::perform_calculations_backward(Matrix<float> input, float)
 {
-	return transfer_derivative(std::get<0>(input));
+	return transfer_derivative(input);
 }
 Matrix<float> ActivationLayer::transfer_result(Matrix<float> input)
 {
     for (int i = 0; i < input.get_rows(); ++i)
         input(i, 0) = calculate_result(input(i, 0));
     result = input;
-    //std::cout << result;
     return input;
 };
-std::tuple<Matrix<float>, Matrix<float>> ActivationLayer::transfer_derivative(Matrix<float> input)
+Matrix<float> ActivationLayer::transfer_derivative(Matrix<float> input)
 {
-    for (int i = 0; i < input.get_rows(); ++i)
-        input(i, 0) = calculate_derivative(input(i, 0));
-
-    return std::make_tuple(input, result);
+    Matrix<float> delta = Matrix<float>(input.get_rows(), 1);
+    for (int i = 0; i < delta.get_rows(); i++)
+        delta(i, 0) = calculate_derivative(result(i, 0));
+    return delta.dot(input);
 };

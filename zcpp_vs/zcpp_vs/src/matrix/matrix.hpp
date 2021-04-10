@@ -30,6 +30,7 @@ class Matrix
         Matrix<T> operator+(const T&);
         Matrix<T> operator*(const T&);
 
+        Matrix<T> dot(const Matrix<T>&);
         Matrix<T> transpose();
         T& operator()(const int&, const int&);
         const T& operator()(const int&, const int&) const;

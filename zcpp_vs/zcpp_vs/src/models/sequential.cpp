@@ -85,7 +85,8 @@ float Sequential::perform_batch_calculations(float alpha, std::list<Matrix<float
     for (it = input.begin(); it != input.end(); ++it)
     {
         Matrix<float> output = propagate_forward(*it);
-        std::cout << "Expected: " << argmax(*exp) << " calculated: " << argmax(output) << std::endl;
+        std::cout << "Expected: " << argmax(*exp) << " calculated: " << argmin(output) << std::endl;
+        //std::cout << output << std::endl;
         Matrix<float> error = Matrix<float>(output.get_rows(), 1);
         for (int i = 0; i < error.get_rows(); i++)
         {
@@ -110,16 +111,23 @@ Matrix<float> Sequential::propagate_forward(Matrix<float> input)
 void Sequential::propagate_backward(float alpha, Matrix<float> output)
 {
     std::list<Layer*>::reverse_iterator it;
-    std::tuple<Matrix<float>, Matrix<float>> out = std::make_tuple(output, Matrix<float>());
 
     for (it = layers.rbegin(); it != layers.rend(); it++)
-        out = (*it)->perform_calculations_backward(out, alpha);
+        output = (*it)->perform_calculations_backward(output, alpha);
 };
 int Sequential::argmax(Matrix<float> m)
 {
     int index = 0;
     for (int i = 1; i < m.get_rows(); i++)
         if (m(i, 0) > m(index, 0))
+            index = i;
+    return index;
+}
+int Sequential::argmin(Matrix<float> m)
+{
+    int index = 0;
+    for (int i = 1; i < m.get_rows(); i++)
+        if (m(i, 0) < m(index, 0))
             index = i;
     return index;
 }

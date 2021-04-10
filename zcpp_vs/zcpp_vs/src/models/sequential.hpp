@@ -12,6 +12,7 @@ class Sequential: public Model
         std::tuple<std::list<Matrix<float>>, std::list<Matrix<float>>> shuffle_input(std::list<Matrix<float>>, std::list<Matrix<float>>);
         std::tuple<std::list<Matrix<float>>, std::list<Matrix<float>>> create_batch(std::tuple<std::list<Matrix<float>>, std::list<Matrix<float>>>, int, int);
         int argmax(Matrix<float>);
+        int argmin(Matrix<float>);
     public:
         Sequential();
         virtual void add(Layer&) override;
