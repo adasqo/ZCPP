@@ -3,13 +3,21 @@
 #include <tuple>
 #include <vector>
 
-Sequential::Sequential()
+Sequential::Sequential(QTextEdit* _console): Model(_console)
 {
     layers = std::list<Layer*>();
 };
-void Sequential::add(Layer& layer)
+void Sequential::add(Layer* layer)
 {
-    layers.push_back(&layer);
+    layers.push_back(layer);
+};
+void Sequential::predict(Matrix<float> m)
+{
+    Matrix<float> output = propagate_forward(m);
+    if (console != nullptr)
+        console->append(("Predicted: " + std::to_string(argmax(output))).c_str());
+    else
+        std::cout << "Predicted: " << argmax(output) << std::endl;
 };
 void Sequential::train(int epochs, int batch_size, float alpha, std::list<Matrix<float>> input, std::list<Matrix<float>> expected)
 {
@@ -18,21 +26,30 @@ void Sequential::train(int epochs, int batch_size, float alpha, std::list<Matrix
     std::tuple<std::list<Matrix<float>>, std::list<Matrix<float>>> batch;
     for (int i = 0; i < epochs; ++i)
     {
-        std::cout << "Training epoch: " << i + 1 << std::endl;
+        if (console != nullptr)
+            console->append(("Training epoch : " + std::to_string(i + 1)).c_str());
+        else
+            std::cout << "Training epoch: " << i + 1 << std::endl;
         
         batches_count = 0;
         std::tuple<std::list<Matrix<float>>, std::list<Matrix<float>>> input_shuffled_tuple = shuffle_input(input, expected);
         error = 0;
         while(batches_count < input.size())
         {
-            std::cout << "Batch #: " << batches_count << std::endl;
+            if (console != nullptr)
+                console->append(("Batch number: " + std::to_string(batches_count)).c_str());
+            else
+                std::cout << "Batch #: " << batches_count << std::endl;
             batch = create_batch(input_shuffled_tuple, batches_count, batch_size);
             err = perform_batch_calculations(alpha, std::get<0>(batch), std::get<1>(batch));
-            std::cout << "Error: " << err << std::endl;
+            if (console != nullptr)
+                console->append(("Error: " + std::to_string(err)).c_str());
+            else
+                std::cout << "Error: " << err << std::endl;
             error += err;
             batches_count += batch_size;
         }
-        std::cout << std::endl << "Error: " << error << std::endl;
+        //std::cout << std::endl << "Error of : " << error << std::endl;
     }
 };
 std::tuple<std::list<Matrix<float>>, std::list<Matrix<float>>> Sequential::shuffle_input(std::list<Matrix<float>> input, std::list<Matrix<float>> expected)

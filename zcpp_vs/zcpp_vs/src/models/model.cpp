@@ -2,7 +2,7 @@
 #include <iostream>
 #include <math.h>
 
-Model::Model()
+Model::Model(QTextEdit* _console): console(_console)
 {
 };
 float Model::calculate_error(Matrix<float> output, Matrix<float> expected)
@@ -13,5 +13,6 @@ float Model::calculate_error(Matrix<float> output, Matrix<float> expected)
 Matrix<float> Model::propagate_forward(Matrix<float>) { return Matrix<float>(); };
 void Model::propagate_backward(float, Matrix<float>) {};
 float Model::perform_batch_calculations(float, std::list<Matrix<float>>, std::list<Matrix<float>>) { return 0; };
-void Model::add(Layer&) {};
+void Model::add(Layer*) {};
 void Model::train(int, int, float, std::list<Matrix<float>>, std::list<Matrix<float>>) {};
+void Model::predict(Matrix<float>) {};

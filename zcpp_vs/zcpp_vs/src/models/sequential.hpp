@@ -14,8 +14,8 @@ class Sequential: public Model
         int argmax(Matrix<float>);
         int argmin(Matrix<float>);
     public:
-        Sequential();
-        virtual void add(Layer&) override;
+        Sequential(QTextEdit* console = nullptr);
+        virtual void add(Layer*) override;
         void train(int, int, float, std::list<Matrix<float>>, std::list<Matrix<float>>) override;
-        
+        void predict(Matrix<float>) override;
 };

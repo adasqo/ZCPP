@@ -9,7 +9,7 @@ Matrix<T>::Matrix() : rows(0), cols(0)
 template<typename T>
 Matrix<T>::Matrix(const int& rows, const int& cols) : rows(rows), cols(cols)
 {
-    this->matrix = std::vector<T>(rows * cols);
+    this->matrix = std::vector<T>(rows * cols, 0);
 };
 template<typename T>
 Matrix<T>::Matrix(const Matrix<T>& m) : rows(m.rows), cols(m.cols)
