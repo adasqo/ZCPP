@@ -46,13 +46,14 @@ class ModelTrain : public QFrame
 {
 	Q_OBJECT
 public:
-	explicit ModelTrain(QFrame* parent = nullptr, Model** model = nullptr, ModelConsole* model_console = nullptr, ModelPredict* model_predict = nullptr);
+	explicit ModelTrain(QFrame* parent = nullptr, Model** model = nullptr, ModelConsole* model_console = nullptr, ModelPredict* model_predict = nullptr, QPushButton* button_save = nullptr);
 	Model** model;
 	void handle_data_button();
 	void handle_train_button();
 private:
 	ModelConsole* model_console;
 	ModelPredict* model_predict;
+	QPushButton* button_save;
 	QTextEdit* epochs_text;
 	QLineEdit* epochs_size;
 	QTextEdit* batch_size_text;
@@ -108,11 +109,12 @@ class ModelCreateLoad : public QFrame
 {
 	Q_OBJECT
 public:
-	ModelCreateLoad(QFrame* parent = nullptr, Model** model = nullptr, ModelType* _model_type = nullptr, ModelConsole* model_console = nullptr);
+	ModelCreateLoad(QFrame* parent = nullptr, Model** model = nullptr, ModelType* _model_type = nullptr, ModelConsole* model_console = nullptr, ModelPredict* model_predict = nullptr);
 	Model** model;
 	void handle_load_button();
 	void handle_create_button();
 private:
+	ModelPredict* model_predict;
 	ModelType* model_type;
 	ModelConsole* model_console;
 	QPushButton* button_load_model;
@@ -132,5 +134,7 @@ private:
 	ModelTrain* model_train;
 	ModelPredict* model_predict;
 	ModelConsole* model_console;
+	QPushButton* button_save;
+	void handle_save_button();
 };
 #endif

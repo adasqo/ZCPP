@@ -14,4 +14,5 @@ class ReLU : public ActivationLayer
         ReLU(int);
         void set_actv_point(float);
         void set_coeff(float);
+        std::string return_information() override;
 };

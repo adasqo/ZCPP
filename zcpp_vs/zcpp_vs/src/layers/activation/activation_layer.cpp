@@ -3,10 +3,7 @@
 #include <tuple>
 
 ActivationLayer::ActivationLayer() : Layer() {};
-ActivationLayer::ActivationLayer(int incomig_units)
-{
-	this->incoming_units = incomig_units;
-};
+ActivationLayer::ActivationLayer(int incomig_units): Layer(incomig_units) {};
 Matrix<float> ActivationLayer::perform_calculations_forward(Matrix<float> input)
 {
 	return transfer_result(input);

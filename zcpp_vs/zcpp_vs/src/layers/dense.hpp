@@ -15,6 +15,9 @@ class Dense: public Layer
         Dense(int);
         Dense(int, int);
 
+        void set_weights(Matrix<float>);
+
         Matrix<float> perform_calculations_forward(Matrix<float>) override;
         Matrix<float> perform_calculations_backward(Matrix<float>, float) override;
+        std::string return_information() override;
 };

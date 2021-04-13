@@ -4,7 +4,7 @@
 
 class Softmax : public ActivationLayer
 {
-    private:    
+    private:
         float beta;
         float calculate_result(float) override;
         float calculate_derivative(float) override;
@@ -13,4 +13,5 @@ class Softmax : public ActivationLayer
         Softmax(int);
         Matrix<float> transfer_result(Matrix<float>) override;
         void set_beta(float);
+        std::string return_information() override;
 };

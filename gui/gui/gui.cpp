@@ -19,8 +19,8 @@ ModelConsole::ModelConsole(QFrame* parent) : QFrame(parent)
 	console->setText("Output console:");
 	console->setReadOnly(true);
 }
-ModelCreateLoad::ModelCreateLoad(QFrame* parent, Model** _model, ModelType* _model_type, ModelConsole* _model_console):
-	QFrame(parent), model_type(_model_type), model_console(_model_console)
+ModelCreateLoad::ModelCreateLoad(QFrame* parent, Model** _model, ModelType* _model_type, ModelConsole* _model_console, ModelPredict* _model_predict):
+	QFrame(parent), model_type(_model_type), model_console(_model_console), model_predict(_model_predict)
 {
 	model = _model;
 	setFixedSize(425, 100);
@@ -39,7 +39,11 @@ void ModelCreateLoad::handle_load_button()
 {
 	button_create_model->setEnabled(false);
 	model_console->console->append("Load model option chosen.");
+	*model = new Model();
+	*model = (*model)->load(QFileDialog::getOpenFileName(this, "Load input filename", "").toStdString());
+	model_console->console->append("Model loaded.");
 	setEnabled(false);
+	model_predict->setEnabled(true);
 }
 void ModelCreateLoad::handle_create_button()
 {
@@ -76,7 +80,7 @@ void ModelType::handle_model_button()
 {
 	if (combobox_model->currentText() == "Sequential")
 	{
-		*model = new Sequential(model_console->console);
+		*model = new Sequential();
 		model_console->console->append("Sequential model chosen.");
 	}
 	model_create->setEnabled(true);
@@ -132,7 +136,7 @@ ModelCreate::ModelCreate(QFrame* parent, Model** _model, ModelConsole* _model_co
 };
 void ModelCreate::handle_layer_button()
 {
-	update();
+	update(); int m = input_size->text().toInt();
 	if (combobox_layers->currentText() == "Dense")
 	{
 		(*model)->add(new Dense(input_size->text().toInt(), output_size->text().toInt()));
@@ -142,17 +146,17 @@ void ModelCreate::handle_layer_button()
 	if (combobox_layers->currentText() == "Softmax")
 	{
 		(*model)->add(new Softmax(input_size->text().toInt()));
-		model_console->console->append("Softmax layer added.");
+		model_console->console->append("Softmax layer with input size " + input_size->text() + " added.");
 	}
 	if (combobox_layers->currentText() == "ReLU")
 	{
 		(*model)->add(new ReLU(input_size->text().toInt()));
-		model_console->console->append("ReLU layer added.");
+		model_console->console->append("ReLU layer with input size " + input_size->text() + " added.");
 	}
 	if (combobox_layers->currentText() == "Sigmoid")
 	{
 		(*model)->add(new Sigmoid(input_size->text().toInt()));
-		model_console->console->append("Sigmoid layer added.");
+		model_console->console->append("Sigmoid layer with input size " + input_size->text() + " added.");
 	}
 }
 void ModelCreate::handle_confirm_button()
@@ -160,11 +164,11 @@ void ModelCreate::handle_confirm_button()
 	model_train->setEnabled(true);
 	setEnabled(false);
 }
-ModelTrain::ModelTrain(QFrame* parent, Model** _model, ModelConsole* _model_console, ModelPredict* _model_predict) :
-	QFrame(parent), model(_model), model_console(_model_console), model_predict(_model_predict)
+ModelTrain::ModelTrain(QFrame* parent, Model** _model, ModelConsole* _model_console, ModelPredict* _model_predict, QPushButton* _button_save) :
+	QFrame(parent), model(_model), model_console(_model_console), model_predict(_model_predict), button_save(_button_save)
 {
 	setEnabled(false);
-	setFixedSize(425, 300);
+	setFixedSize(425, 200);
 	setFrameStyle(QFrame::Panel);
 
 	epochs_text = new QTextEdit(this);
@@ -227,13 +231,16 @@ void ModelTrain::handle_data_button()
 	epochs_size->setEnabled(false);
 	batch_size->setEnabled(false);
 	alpha->setEnabled(false);
+	alpha->setEnabled(false);
 	samples_number->setEnabled(false);
 }
 void ModelTrain::handle_train_button()
 {
-	(*model)->train(epochs_size->text().toInt(), batch_size->text().toInt(), alpha->text().toInt(), std::get<0>(data), std::get<1>(data));
+	std::string info = (*model)->train(epochs_size->text().toInt(), batch_size->text().toInt(), alpha->text().toInt(), std::get<0>(data), std::get<1>(data));
+	model_console->console->append(info.c_str());
 	model_predict->setEnabled(true);
 	setEnabled(false);
+	button_save->setEnabled(true);
 }
 ModelPredict::ModelPredict(QFrame* parent, Model** _model, ModelConsole* _model_console) :
 	QFrame(parent), model(_model), model_console(_model_console)
@@ -257,8 +264,12 @@ void ModelPredict::handle_predict_button()
 			if (pixels[i][j] == 1)
 				m(i * 28 + j, 0) = 1;
 
-	(*model)->predict(m);
-	setEnabled(false);
+	std::string info = (*model)->predict(m);
+	model_console->console->append(info.c_str());
+
+	for (int i = 0; i < 28; ++i)
+		for (int j = 0; j < 28; ++j)
+			pixels[i][j] = 0;
 };
 void ModelPredict::paintEvent(QPaintEvent* event)
 {
@@ -292,6 +303,12 @@ void ModelPredict::mousePressEvent(QMouseEvent* event)
 	QFrame::mousePressEvent(event);
 	update();
 }
+void MainWindow::handle_save_button()
+{
+	model->save(QFileDialog::getOpenFileName(this, "Save model", "").toStdString());
+	model_console->console->append("Model saved.");
+	button_save->setEnabled(false);
+}
 MainWindow::MainWindow(QWidget* parent)
 	: QMainWindow(parent)
 {
@@ -300,10 +317,16 @@ MainWindow::MainWindow(QWidget* parent)
 	model_console = new ModelConsole((QFrame*)this);
 	model_console->setGeometry(QRect(QPoint(525, 525), QPoint(200, 300)));
 
+	button_save = new QPushButton(this);
+	button_save->setGeometry(QRect(QPoint(175, 800), QSize(175, 50)));
+	button_save->setText("Save model");
+	connect(button_save, &QPushButton::released, this, &MainWindow::handle_save_button);
+	button_save->setEnabled(false);
+
 	model_predict = new ModelPredict((QFrame*)this, &model, model_console);
 	model_predict->setGeometry(QRect(QPoint(525, 50), QPoint(200, 200)));
 
-	model_train = new ModelTrain((QFrame*)this, &model, model_console, model_predict);
+	model_train = new ModelTrain((QFrame*)this, &model, model_console, model_predict, button_save);
 	model_train->setGeometry(QRect(QPoint(50, 565), QPoint(200, 100)));
 
 	model_create = new ModelCreate((QFrame*)this, &model, model_console, model_train);
@@ -312,6 +335,7 @@ MainWindow::MainWindow(QWidget* parent)
 	model_type = new ModelType((QFrame*)this, &model, model_create, model_console);
 	model_type->setGeometry(QRect(QPoint(50, 170), QPoint(200, 75)));
 
-	model_create_load = new ModelCreateLoad((QFrame*)this, &model, model_type, model_console);
+	model_create_load = new ModelCreateLoad((QFrame*)this, &model, model_type, model_console, model_predict);
 	model_create_load->setGeometry(QRect(QPoint(50, 50), QPoint(200, 100)));
+
 }

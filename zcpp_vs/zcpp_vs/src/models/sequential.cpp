@@ -3,7 +3,7 @@
 #include <tuple>
 #include <vector>
 
-Sequential::Sequential(QTextEdit* _console): Model(_console)
+Sequential::Sequential(): Model()
 {
     layers = std::list<Layer*>();
 };
@@ -11,46 +11,38 @@ void Sequential::add(Layer* layer)
 {
     layers.push_back(layer);
 };
-void Sequential::predict(Matrix<float> m)
+std::string Sequential::predict(Matrix<float> m)
 {
     Matrix<float> output = propagate_forward(m);
-    if (console != nullptr)
-        console->append(("Predicted: " + std::to_string(argmax(output))).c_str());
-    else
-        std::cout << "Predicted: " << argmax(output) << std::endl;
+    return "Predicted: " + std::to_string(argmax(output));
 };
-void Sequential::train(int epochs, int batch_size, float alpha, std::list<Matrix<float>> input, std::list<Matrix<float>> expected)
+std::string Sequential::train(int epochs, int batch_size, float alpha, std::list<Matrix<float>> input, std::list<Matrix<float>> expected)
 {
+    std::string info = "";
     int batches_count;
     float error, err = 0;
     std::tuple<std::list<Matrix<float>>, std::list<Matrix<float>>> batch;
     for (int i = 0; i < epochs; ++i)
     {
-        if (console != nullptr)
-            console->append(("Training epoch : " + std::to_string(i + 1)).c_str());
-        else
-            std::cout << "Training epoch: " << i + 1 << std::endl;
+        std::cout << "Training epoch: " << i + 1 << std::endl;
+        info += "Training epoch: " + std::to_string(i + 1) + "\n";
         
         batches_count = 0;
         std::tuple<std::list<Matrix<float>>, std::list<Matrix<float>>> input_shuffled_tuple = shuffle_input(input, expected);
         error = 0;
         while(batches_count < input.size())
         {
-            if (console != nullptr)
-                console->append(("Batch number: " + std::to_string(batches_count)).c_str());
-            else
-                std::cout << "Batch #: " << batches_count << std::endl;
+            std::cout << "Batch #: " << batches_count << std::endl;
+            info += "Batch #: " + std::to_string(batches_count) + "\n";
             batch = create_batch(input_shuffled_tuple, batches_count, batch_size);
             err = perform_batch_calculations(alpha, std::get<0>(batch), std::get<1>(batch));
-            if (console != nullptr)
-                console->append(("Error: " + std::to_string(err)).c_str());
-            else
-                std::cout << "Error: " << err << std::endl;
+            std::cout << "Error: " << err << std::endl;
+            info += "Error: " + std::to_string(err) + "\n";
             error += err;
             batches_count += batch_size;
         }
-        //std::cout << std::endl << "Error of : " << error << std::endl;
     }
+    return info;
 };
 std::tuple<std::list<Matrix<float>>, std::list<Matrix<float>>> Sequential::shuffle_input(std::list<Matrix<float>> input, std::list<Matrix<float>> expected)
 {
@@ -103,15 +95,12 @@ float Sequential::perform_batch_calculations(float alpha, std::list<Matrix<float
     {
         Matrix<float> output = propagate_forward(*it);
         std::cout << "Expected: " << argmax(*exp) << " calculated: " << argmin(output) << std::endl;
-        //std::cout << output << std::endl;
         Matrix<float> error = Matrix<float>(output.get_rows(), 1);
         for (int i = 0; i < error.get_rows(); i++)
         {
             error(i, 0) = (*exp)(i, 0) - output(i, 0);
-            //error(i, 0) = log(output(i, 0)) * ((*exp)(i, 0)) + log(1 - output(i, 0)) * (1 - (*exp)(i, 0));
             err += abs(error(i, 0));
         }
-        //std::cout << "out: " << output << std::endl;
         exp++;
         propagate_backward(alpha, error);
     }
@@ -147,4 +136,16 @@ int Sequential::argmin(Matrix<float> m)
         if (m(i, 0) < m(index, 0))
             index = i;
     return index;
+}
+void Sequential::save(std::string path)
+{
+    std::ofstream file;
+    file.open(path);
+    std::list<Layer*>::iterator it;
+    std::string lay = "model: {\n type: Sequential, \nlayers: {\n";
+    for (it = layers.begin(); it != layers.end(); ++it)
+        lay += (*it)->return_information();
+    lay += "\n}\n}";
+    file << lay;
+    file.close();
 }
