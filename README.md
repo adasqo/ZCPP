@@ -23,7 +23,7 @@ In addition, I also created a GUI in QT Framework, which enables to build networ
 1. GUI is built in QT framework (vesion 5.15.2).
 2. There are some custom widgets implemented for building and training the model. There's also a console that shows results of actions and a 28 x 28 grid, where a user
 can draw a digit (pixel by pixel).
-![alt text](gui_image.jpg)
+![Screenshot](gui_image.jpg)
 ## Code structure
 1. Source code for neural network is in zcpp_vs/zcpp_vs/src folder. There you can find:
 	1.1. data_management - package used for loading the data from csv files. 
